@@ -14,17 +14,17 @@ Usage
 The configuration is located at :code:`/etc/mosquitto`. To modify the basic configuration, mount a configuration file at :code:`/etc/mosquitto/mosquitto.conf` or mount an entire folder at :code:`/etc/mosquitto`.
 
 To adapt the default configuration, create a temporary container and copy the configuration file:
-.. code:: bash
+::
    docker run --name tmp-container -d ngdio/mosquitto:<image variant>
    docker cp tmp-container:/etc/mosquitto/mosquitto.conf /host/path/mosquitto.conf
    docker rm -f tmp-container
 
 
 **Command Line:**
-.. code:: bash
+::
    docker run -d -p 1883:1883 -v /mosquitto:/etc/mosquitto/mosquitto ngdio/mosquitto:<image variant>
 
-Please take a look at [the different images](https://hub.docker.com/r/marthoc/deconz/tags/) to find the variant you need.
+Please take a look at the `different images <https://hub.docker.com/r/ngdio/mosquitto/tags/>`_ to find the variant you need.
 
 **Docker-Compose:**
 ::
