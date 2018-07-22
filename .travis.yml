@@ -1,0 +1,46 @@
+sudo: required
+services:
+  - docker
+language: bash
+env:
+  global:
+  - secure: "qa10Q9LESgMIevHpGgDbPelArfcdHL+z1htSYvNjK/gYVzrA/rOxDKZpARBgvjefabMlAlUdfqNCRFLInEwVMrKb7/cRqojBbJDMvmsHUakvA0oXv8BEan7QQXbMWs2ubKp5eQ96maVyFnn7Y3fSkqUsE/wmPrTuJCYz8FjyfVFPg+kfa9tMHCc6uChCjtMgylbchXf69TJQk4lhC7QLxjkiV/GsBA5mJd832l5Q1PrAIJSXHWK2avzswBux06dd0Paqb1oWaH9+J/qum4XopMRtZ3AyCR44UXRn68jLoeob2SnLmFjXWGYqkCr8UowoKotVDujOyinUDWOO1KvkDS3B9GX5hF1tJxsl9Lnmy7nweB4UqInOoSVmS8h2fc71vCgGdHWpfOE85knBXG7ThQ7Xwj1/BoB9XDCZS4pP8lIeBK2vcGFWpjAa6CGCtAPnVx19Lf0HBuieXdFvjuxBXT5pGaWwHrwQ9OTRnduNUVCpI9IpqYsNST4Evesi7qHAajfRXE52tlDuRrAlDN/6lJ8Mnc3h2bSCvhhZ2sP5IDjY+LkRlezVajpCc1vPMeYXkmYEHcMyAgxMJiDNBVMqvKpBN5ItsjsMqmwGAYontpqAHhLr3kCBXTktJh3C3gYLzee9Il4rdkCmekosTtPh3CYXrV4ZJBYi7ZYAMfQTFu8="
+  - secure: "oBpRI8HzZzTTYK629fFY5u6siZ/fqAgM+OQUCgbx0qcudKLyhcSqWstd6JhR8f8eVCYAMtdi2GU/P2uI9JETU5oRy6Wr2RZlcW5yfZg/fvVebbQi0KqbschJfzDVZLyAfR8S2kHwnkTfoWiBcitorkUx4YqUAMjJvZUgHjQd2txw7R7NYHraNIjgy/GDwOTz94xsrdlM19hOnW3HNIzWmpTlg2x3L0sjc+MHK9IWXV7lgc1PVcVsZFakTrJLIM7/vKE8J9TaYGFscocFgMphRsx+tEx3hLJyAqeAwqawxNpvIzfXkr16mLjUou1KjWDUEBdtOMjZ/+/QUHcf3kDrwUivYV6wCBDDg9zZtLUBfXGVijNdUgqzyCPPaoNj/WUFbg9A1Dd6XGS6l4fbpTb6ZsqGFBdqVzsK2qXcPG1c8ig+lqoabiMGnaULZynTVs53xtdggmhNWUgwebBz11sh9L945XwSxkJv52cZIA8RSvL2i+h1ctEFwCQGbecrwh+3Vch2d0F2kAxpqBevLU9tH6ANsvzKjZTu22L9ZjPVqQlayrolcKz8CoiymSVhkJWq02wXviVKCgQL2zkYE0ARlLE8LDNs0bVWlPaR0ag+3oHHmTlOcGwyoRqmbKl2WKHHTmvn5op5e4YfL5u/+oQesyp+oy2h7peNSmT71HiDBl8="
+install:
+  - wget https://github.com/estesp/manifest-tool/releases/download/v0.7.0/manifest-tool-linux-amd64 -O manifest-tool
+  - chmod +x manifest-tool
+script:
+# Build amd64
+  - docker build -t "ngdio/mosquitto:amd64" amd64
+# Setup QEMU
+  - docker run --rm --privileged multiarch/qemu-user-static:register --reset
+# Build i386
+  - docker build -t "ngdio/mosquitto:i386" i386
+# Build armhf
+  - docker build -t "ngdio/mosquitto:armhf" armhf
+# Build aarch64
+  - docker build -t "ngdio/mosquitto:aarch64" aarch64
+after_success:
+# Tag and push built images
+  - >
+    if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+      docker login -u="$DOCKER_LOGIN" -p="$DOCKER_PASS"
+      VERSION=$(cat .VERSION)
+      docker tag ngdio/mosquitto:amd64 ngdio/mosquitto:amd64-$VERSION
+      docker push ngdio/mosquitto:amd64
+      docker push ngdio/mosquitto:amd64-$VERSION
+      docker tag ngdio/mosquitto:i386 ngdio/mosquitto:i386-$VERSION
+      docker push ngdio/mosquitto:i386
+      docker push ngdio/mosquitto:i386-$VERSION
+      docker tag ngdio/mosquitto:armhf ngdio/mosquitto:armhf-$VERSION
+      docker push ngdio/mosquitto:armhf
+      docker push ngdio/mosquitto:armhf-$VERSION
+      docker tag ngdio/mosquitto:aarch64 ngdio/mosquitto:aarch64-$VERSION
+      docker push ngdio/mosquitto:aarch64
+      docker push ngdio/mosquitto:aarch64-$VERSION
+    fi
+# Update manifest
+  - >
+    if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+      ./manifest-tool --username $DOCKER_USER --password $DOCKER_PASS push from-spec manifest.yml
+    fi
