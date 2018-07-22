@@ -15,24 +15,27 @@ The configuration is located at :code:`/etc/mosquitto`. To modify the basic conf
 
 To adapt the default configuration, create a temporary container and copy the configuration file:
 
-.. codeblock::
-   docker run --name tmp-container -d ngdio/mosquitto:<image variant>
-   docker cp tmp-container:/etc/mosquitto/mosquitto.conf /host/path/mosquitto.conf
-   docker rm -f tmp-container
+.. code:: bash
+
+    docker run --name tmp-container -d ngdio/mosquitto:<image variant>
+    docker cp tmp-container:/etc/mosquitto/mosquitto.conf /host/path/mosquitto.conf
+    docker rm -f tmp-container
 
 
 **Command Line:**
 
-.. codeblock::
-   docker run -d -p 1883:1883 -v /mosquitto:/etc/mosquitto/mosquitto ngdio/mosquitto:<image variant>
+.. code:: bash
+
+    docker run -d -p 1883:1883 -v /mosquitto:/etc/mosquitto/mosquitto ngdio/mosquitto:<image variant>
 
 Please take a look at the `different images <https://hub.docker.com/r/ngdio/mosquitto/tags/>`_ to find the variant you need.
 
 **Docker-Compose:**
 
-.. codeblock::
-   version: "2"
-     services:
+.. code:: yaml
+
+    version: "2"
+      services:
        mosquitto:
          image: ngdio/mosquitto:<image variant>
        restart: always
@@ -49,14 +52,15 @@ Contributions
 Quick reference
 ---------------
 
--	**Where to file issues**:
-`https://github.com/ngdio/docker-mosquitto/issues <https://github.com/ngdio/docker-mosquitto/issues>`_
+- **Where to file issues**:
+    `https://github.com/ngdio/docker-mosquitto/issues <https://github.com/ngdio/docker-mosquitto/issues>`_
 
--	**Maintained by**:
-`Niklas (ngdio) <https://github.com/ngdio>`_
+- **Maintained by**:
+    `Niklas (ngdio) <https://github.com/ngdio>`_
 
--	**Supported architectures**:
-amd64, i386, armhf, aarch64
+- **Supported architectures**:
+    `amd64 <https://github.com/ngdio/docker-mosquitto/blob/master/amd64/Dockerfile>`_, `i386 <https://github.com/ngdio/docker-mosquitto/blob/master/i386/Dockerfile>`_, `armhf <https://github.com/ngdio/docker-mosquitto/blob/master/aarmhd/Dockerfile>`_, `aarch64 <https://github.com/ngdio/docker-mosquitto/blob/master/aarch64/Dockerfile>`_
+
 
 
 .. |Travis| image:: https://img.shields.io/travis/ngdio/docker-mosquitto.svg?style=flat-square
