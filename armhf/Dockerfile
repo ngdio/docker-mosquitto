@@ -4,7 +4,9 @@ LABEL maintainer="Niklas <dev@n1klas.net>"
 
 ENV VERSION 1.5
 
-ADD libressl.patch /
+ADD qemu-arm.tar.gz /usr/bin
+
+COPY libressl.patch /
 
 RUN set -x; \
     GPGKEY='A0D6EEA1DCAE49A635A3B2F0779B22DFB3E717B7' \
