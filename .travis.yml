@@ -11,15 +11,15 @@ install:
   - chmod +x manifest-tool
 script:
 # Build amd64
-  - docker build -t "ngdio/mosquitto:amd64" amd64
+  - docker build -t "ngdio/mosquitto:amd64" -f amd64/Dockerfile .
 # Setup QEMU
   - docker run --rm --privileged multiarch/qemu-user-static:register --reset
 # Build i386
-  - docker build -t "ngdio/mosquitto:i386" i386
+  - docker build -t "ngdio/mosquitto:i386" -f i386/Dockerfile .
 # Build armhf
-  - docker build -t "ngdio/mosquitto:armhf" armhf
+  - docker build -t "ngdio/mosquitto:armhf" -f armhf/Dockerfile .
 # Build aarch64
-  - docker build -t "ngdio/mosquitto:aarch64" aarch64
+  - docker build -t "ngdio/mosquitto:aarch64" -f aarch64/Dockerfile .
 after_success:
 # Tag and push built images
   - >
