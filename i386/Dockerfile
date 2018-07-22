@@ -4,8 +4,6 @@ LABEL maintainer="Niklas <dev@n1klas.net>"
 
 ENV VERSION 1.5
 
-ADD qemu-i386.tar.gz /usr/bin
-
 COPY libressl.patch /
 
 RUN set -x; \
