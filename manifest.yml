@@ -6,15 +6,13 @@ manifests:
       os: linux
   - image: ngdio/mosquitto:i386
     platform:
-      architecture: i386
+      architecture: 386
       os: linux
   - image: ngdio/mosquitto:armhf
     platform:
       architecture: arm
-      variant: armv7l
       os: linux
   - image: ngdio/mosquitto:aarch64
     platform:
-      architecture: arm
-      variant: aarch64
+      architecture: arm64
       os: linux
