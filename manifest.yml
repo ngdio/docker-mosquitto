@@ -1,0 +1,20 @@
+image: ngdio/mosquitto:latest
+manifests:
+  - image: ngdio/mosquitto:amd64
+    platform:
+      architecture: amd64
+      os: linux
+  - image: ngdio/mosquitto:i386
+    platform:
+      architecture: i386
+      os: linux
+  - image: ngdio/mosquitto:armhf
+    platform:
+      architecture: arm
+      variant: armv7l
+      os: linux
+  - image: ngdio/mosquitto:aarch64
+    platform:
+      architecture: arm
+      variant: aarch64
+      os: linux
