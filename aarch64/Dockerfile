@@ -6,7 +6,8 @@ ENV VERSION 1.5
 
 ADD libressl.patch /
 
-RUN GPGKEY='A0D6EEA1DCAE49A635A3B2F0779B22DFB3E717B7' \
+RUN set -x; \
+    GPGKEY='A0D6EEA1DCAE49A635A3B2F0779B22DFB3E717B7' \
     && apk add --no-cache --virtual .build-deps \
         gcc \
         g++ \
