@@ -35,12 +35,14 @@ Please take a look at the `different images <https://hub.docker.com/r/ngdio/mosq
 .. code:: yaml
 
     version: "2"
-      services:
-       mosquitto:
-         image: ngdio/mosquitto:<image variant>
-       restart: always
-       volumes:
-         - /mosquitto:/etc/mosquitto
+    services:
+      mosquitto:
+        image: ngdio/mosquitto:<image variant>
+        restart: always
+        ports:
+        - 1883:1883
+        volumes:
+        - /mosquitto:/etc/mosquitto
 
 
 Contributions
