@@ -2,7 +2,7 @@ FROM i386/alpine:3.8
 
 LABEL maintainer="Niklas <dev@n1klas.net>"
 
-ENV VERSION 1.5
+ENV VERSION 1.5.1
 
 COPY libressl.patch /
 
