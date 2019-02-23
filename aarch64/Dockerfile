@@ -2,7 +2,7 @@ FROM arm64v8/alpine:3.8
 
 LABEL maintainer="Niklas <dev@n1klas.net>"
 
-ENV VERSION 1.5.1
+ENV VERSION 1.5.7
 
 ADD qemu-aarch64.tar.gz /usr/bin
 
